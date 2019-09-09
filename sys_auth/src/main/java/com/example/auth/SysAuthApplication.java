@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @SpringBootApplication
 @EnableResourceServer
-@MapperScan("com.example.sys_auth.mapper")
+@MapperScan("com.example.auth.mapper")
 public class SysAuthApplication {
 
 
