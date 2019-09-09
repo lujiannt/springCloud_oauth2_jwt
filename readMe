@@ -1,0 +1,28 @@
+sys_auth: oauth2实现单点登录
+    测试流程：
+        1.启动auth/client1/client2
+        2.访问localhost:8081/demo 或者 localhost:8082/demo，发现都进了auth/login登录页面
+        3.输入用户名密码登录完毕，发现即可实现单点登录。
+
+JWT（https://blog.csdn.net/AaronSimon/article/details/84071811）
+    sys_auth_jwt1: oauth2 + jwt对称加密
+        测试流程：
+            直接访问 http://localhost:8894/auth/user，发现访问受限制
+            1.获取code
+                http://localhost:8894/auth/oauth/authorize?response_type=code&client_id=client&redirect_uri=http://baidu.com
+            2.根据code获取token
+                http://localhost:8894/auth/oauth/token?username=admin&password=111&client_id=client&client_secret=123456&grant_type=authorization_code&code=CODE&redirect_uri=http://baidu.com
+            3.根据token再次访问受保护资源
+                http://localhost:8894/auth/user?access_token=TOKEN&resource_id=order
+
+    sys_auth_jwt1: oauth2 + jwt非对称加密
+        准备流程：需要使用jdk生成jks证书，并使用openssl导出公钥
+            #生成证书
+            keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore E:\lujian\jks/mytest.jks -storepass mypass
+            #从证书导出公钥
+            keytool -list -rfc --keystore E:\lujian\jks/mytest.jks | openssl x509 -inform pem -pubkey
+        测试流程：如sys_auth_jwt1
+
+    sys_auth_enhancer: 在非对称加密的基础上，往jwt中添加自定义信息
+        1.自定义TokenEnhancer中携带用户信息
+        2.自定义TokenConverter中添加自定义信息

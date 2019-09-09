@@ -1,0 +1,44 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka/
+server:
+  port: 8894
+  servlet:
+    context-path: /auth
+
+#spring配置
+spring:
+  #应用配置
+  application:
+    #名称: OAuth2认证授权服务
+    name: auth-server
+  #数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_oauth?serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  #Redis
+  redis:
+    host: 127.0.0.1
+    database: 0
+  #  redis:
+  #    host: 127.0.0.1
+  #    port: 6379
+  #    jedis:
+  #      pool:
+  #        max-active: 8
+  #        max-wait: 60
+  #        max-idle: 8
+  #        min-idle: 8
+  #    timeout: 10000
+  thymeleaf:
+    cache: false
+    prefix: classpath:templates
+    suffix: .html
+    mode: HTML
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+logging.level.org.springframework.security: DEBUG
